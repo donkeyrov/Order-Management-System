@@ -4,7 +4,7 @@ using System.Transactions;
 
 namespace OrderMgt.API.Repositories
 {
-    public class TransactionRepository: GenericRepository<Transaction>, ITransactionRepository
+    public class TransactionRepository: GenericRepository<Model.Entities.Transaction> , ITransactionRepository
     {
         public TransactionRepository(AppDbContext context) : base(context)
         {
