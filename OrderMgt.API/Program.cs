@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OrderMgt.API.Data;
+using OrderMgt.API.Interfaces;
+using OrderMgt.API.Repositories;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -45,6 +47,20 @@ builder.Services.AddAuthentication(options =>
 
     })
     .AddCookie("Cookies");
+
+builder.Services.AddTransient<IAccountRepository, AccountRepository>();
+builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
+builder.Services.AddTransient<IInventoryRepository, InventoryRepository>();
+builder.Services.AddTransient<ILogRepository, LogRepository>();
+builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IOrderHistoryRepository, OrderHistoryRepository>();
+builder.Services.AddTransient<IOrderProductRepository, OrderProductRepository>();
+builder.Services.AddTransient<IOrderStatusRepository, OrderStatusRepository>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
+builder.Services.AddTransient<ISegmentRepository, SegmentRepository>();
+builder.Services.AddTransient<ITransactionRepository, TransactionRepository>();
+builder.Services.AddTransient<ITransactionCodeRepository, TransactionCodeRepository>();
 
 builder.Services.AddSwaggerGen(options =>
 {
