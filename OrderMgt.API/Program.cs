@@ -1,13 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OrderMgt.API.Data;
 using OrderMgt.API.Extensions;
-using OrderMgt.API.Interfaces;
-using OrderMgt.API.Repositories;
-using OrderMgt.API.Services;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -25,12 +21,9 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    //options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
     .AddJwtBearer(option =>
     {
-        //option.SaveToken = true;
-        //option.RequireHttpsMetadata = false;
         option.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
         {
             ValidateIssuerSigningKey = true,
@@ -42,52 +35,40 @@ builder.Services.AddAuthentication(options =>
             ValidIssuer = configuration["JWT:ValidIssuer"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
         };
-
     });
-//.AddCookie("Cookies");
+
 builder.Services.AddAuthorization();
 
 //add the services from the IServiceCollection extension to keep this file clean
 builder.Services.AddServices();
 
-//builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-//builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    var jwtSecurityScheme = new OpenApiSecurityScheme
     {
-        In = ParameterLocation.Header,
-        Description = "Please enter jwt token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
         BearerFormat = "JWT",
-        Scheme = "bearer"
-    });
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Enter your JWT Access Toekn",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+    options.AddSecurityDefinition("Bearer", jwtSecurityScheme);
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
+        {jwtSecurityScheme, Array.Empty<string>() }
     });
-    //options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-    //// Include XML comments in the generated documentation
-    //var xmlFile = Path.Combine(AppContext.BaseDirectory, "AppDoc.xml");
-    //if (File.Exists(xmlFile))
-    //{
-    //    options.IncludeXmlComments(xmlFile, true);
-    //}
 });
-builder.Services.AddControllers();
+
 
 var app = builder.Build();
 
@@ -95,14 +76,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger(options =>
-    {
-        options.SerializeAsV2 = true;
-    });
-    app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");        
-    });
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseAuthentication();
