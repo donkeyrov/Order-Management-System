@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OrderMgt.API.Repositories;
+using OrderMgt.API.Interfaces;
 using OrderMgt.Model.Entities;
 using OrderMgt.Model.Models;
 using Serialize.Linq.Serializers;
@@ -12,23 +12,23 @@ namespace OrderMgt.API.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class TransactionCodeController : ControllerBase
+    public class PromotionController : ControllerBase
     {
-        protected readonly TransactionCodeRepository repository;
-        protected readonly ILogger<TransactionCodeController> logger;
+        protected readonly IPromotionRepository repository;
+        protected readonly ILogger<PromotionController> logger;
 
-        public TransactionCodeController(TransactionCodeRepository _transactionCodeRepository, ILogger<TransactionCodeController> _logger)
+        public PromotionController(IPromotionRepository promotionRepository,ILogger<PromotionController> _logger)
         {
-            repository = _transactionCodeRepository;
+            repository = promotionRepository;   
             logger = _logger;
         }
 
         [HttpPost("AddAsync")]
-        public async Task<IActionResult> AddAsync(TransactionCode transactionCode)
+        public async Task<IActionResult> AddAsync(Promotion promotion)
         {
-            if (await repository.AddAsync(transactionCode))
+            if (await repository.AddAsync(promotion))
             {
-                return Ok(new BaseResponseModel { Success = true, Data = transactionCode });
+                return Ok(new BaseResponseModel { Success = true, Data = promotion });
             }
             else
             {
@@ -37,11 +37,11 @@ namespace OrderMgt.API.Controllers
         }
 
         [HttpPost("AddRangeAsync")]
-        public async Task<IActionResult> AddRangeAsync(IEnumerable<TransactionCode> transactionCodes)
+        public async Task<IActionResult> AddRangeAsync(IEnumerable<Promotion> promotions)
         {
-            if (await repository.AddRangeAsync(transactionCodes))
+            if (await repository.AddRangeAsync(promotions))
             {
-                return Ok(new BaseResponseModel { Success = true, Data = transactionCodes });
+                return Ok(new BaseResponseModel { Success = true, Data = promotions });
             }
             else
             {
@@ -55,7 +55,7 @@ namespace OrderMgt.API.Controllers
             var serializer = new ExpressionSerializer(new Serialize.Linq.Serializers.JsonSerializer());
             string serializedExpression = predicate.Replace('@', '#');
 
-            Expression<Func<TransactionCode, bool>> result = (Expression<Func<TransactionCode, bool>>)serializer.DeserializeText(serializedExpression);
+            Expression<Func<Promotion, bool>> result = (Expression<Func<Promotion, bool>>)serializer.DeserializeText(serializedExpression);
 
             var res = repository.Find(result);
             if (res.Count() > 0)
@@ -83,9 +83,9 @@ namespace OrderMgt.API.Controllers
         }
 
         [HttpDelete("RemoveAsync")]
-        public async Task<IActionResult> RemoveAsync(TransactionCode transactionCode)
+        public async Task<IActionResult> RemoveAsync(Promotion promotion)
         {
-            if (await repository.RemoveAsync(transactionCode))
+            if (await repository.RemoveAsync(promotion))
             {
                 return Ok(new BaseResponseModel { Success = true });
             }
@@ -97,9 +97,9 @@ namespace OrderMgt.API.Controllers
         }
 
         [HttpDelete("RemoveRangeAsync")]
-        public async Task<IActionResult> RemoveRangeAsync(IEnumerable<TransactionCode> transactionCodes)
+        public async Task<IActionResult> RemoveRangeAsync(IEnumerable<Promotion> promotions)
         {
-            if (await repository.RemoveRangeAsync(transactionCodes))
+            if (await repository.RemoveRangeAsync(promotions))
             {
                 return Ok(new BaseResponseModel { Success = true });
             }
@@ -110,11 +110,11 @@ namespace OrderMgt.API.Controllers
         }
 
         [HttpPut("UpdateAsync")]
-        public async Task<IActionResult> UpdateAsync(TransactionCode transactionCode)
+        public async Task<IActionResult> UpdateAsync(Promotion promotion)
         {
-            if (await repository.UpdateAsync(transactionCode))
+            if (await repository.UpdateAsync(promotion))
             {
-                return Ok(new BaseResponseModel { Success = true, Data = transactionCode });
+                return Ok(new BaseResponseModel { Success = true, Data = promotion });
             }
             else
             {
@@ -123,11 +123,11 @@ namespace OrderMgt.API.Controllers
         }
 
         [HttpPut("UpdateRangeAsync")]
-        public async Task<IActionResult> UpdateRangeAsync(IEnumerable<TransactionCode> transactionCodes)
+        public async Task<IActionResult> UpdateRangeAsync(IEnumerable<Promotion> promotions)
         {
-            if (await repository.UpdateRangeAsync(transactionCodes))
+            if (await repository.UpdateRangeAsync(promotions))
             {
-                return Ok(new BaseResponseModel { Success = true, Data = transactionCodes });
+                return Ok(new BaseResponseModel { Success = true, Data = promotions });
             }
             else
             {

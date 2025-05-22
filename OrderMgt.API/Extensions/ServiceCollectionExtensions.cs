@@ -20,6 +20,7 @@ namespace OrderMgt.API.Extensions
             services.AddTransient<ISegmentRepository, SegmentRepository>();
             services.AddTransient<ITransactionRepository, TransactionRepository>();
             services.AddTransient<ITransactionCodeRepository, TransactionCodeRepository>();
+            services.AddTransient<IPromotionRepository, PromotionRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddScoped<IAuthenticateService, AuthenticateService>();
             services.AddScoped<IRegistrationService, RegistrationService>();

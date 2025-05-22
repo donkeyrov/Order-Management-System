@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OrderMgt.API.Interfaces;
 using OrderMgt.API.Repositories;
 using OrderMgt.Model.Entities;
@@ -8,6 +9,7 @@ using System.Linq.Expressions;
 
 namespace OrderMgt.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase

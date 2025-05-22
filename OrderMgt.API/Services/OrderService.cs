@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using OrderMgt.API.Data;
+﻿using Newtonsoft.Json;
 using OrderMgt.API.Interfaces;
-using OrderMgt.API.Repositories;
 using OrderMgt.Model.Entities;
 using OrderMgt.Model.Models;
 
@@ -20,7 +15,6 @@ namespace OrderMgt.API.Services
         public OrderService(IOrderHistoryRepository orderHistoryRepository, IPromotionRepository promotionRepository,
             IOrderRepository orderRepository,ICustomerRepository customerRepository, ILogger<OrderService> logger)
         {
-
             _orderRepository = orderRepository;
             _orderHistoryRepository = orderHistoryRepository;
             _promotionRepository = promotionRepository;
