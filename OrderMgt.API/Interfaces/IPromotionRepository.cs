@@ -2,7 +2,7 @@
 
 namespace OrderMgt.API.Interfaces
 {
-    public interface IOrderStatusRepository: IGenericRepository<OrderStatus>
+    public interface IPromotionRepository: IGenericRepository<Promotion>
     {
     }
 }

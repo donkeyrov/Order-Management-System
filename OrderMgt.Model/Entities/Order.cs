@@ -24,17 +24,15 @@ namespace OrderMgt.Model.Entities
         [ForeignKey("OrderStatus")]
         [Required(ErrorMessage = "Please select an order status")]
         [DeniedValues("0", ErrorMessage = "Please select a valid order status")]
-        public int OrderStatusID { get; set; }
+        public string OrderStatus { get; set; }
         [Range(0.01, float.MaxValue, ErrorMessage = "Total must be a positive number")]
+        public float Discount { get; set; }        
         public float Total { get; set; }        
         public string CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
         public string CompletedBy { get; set; }
         public DateTime DateCompleted { get; set; }
-
-        public Product Product { get; set; }
+        
         public Customer Customer { get; set; }
-        public OrderStatus OrderStatus { get; set; }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using OrderMgt.API.Interfaces;
 using OrderMgt.API.Repositories;
 using OrderMgt.Model.Entities;
@@ -13,18 +14,23 @@ namespace OrderMgt.API.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        protected readonly IOrderRepository repository;
+        protected readonly IOrderRepository orderRepository;
+        protected readonly IOrderHistoryRepository orderHistoryRepository;       
+        protected readonly IOrderService orderService;
         protected readonly ILogger<OrderController> logger;
-        public OrderController(OrderRepository _orderRepository, ILogger<OrderController> _logger)
+        public OrderController(OrderRepository _orderRepository,IOrderHistoryRepository _orderHistoryRepository,
+            IOrderService _orderService , ILogger<OrderController> _logger)
         {
-            repository = _orderRepository;
+            orderRepository = _orderRepository;
+            orderHistoryRepository = _orderHistoryRepository;            
+            orderService = _orderService;
             logger = _logger;
         }
 
         [HttpPost("AddAsync")]
         public async Task<IActionResult> AddAsync(Order order)
         {
-            if (await repository.AddAsync(order))
+            if (await orderRepository.AddAsync(order))
             {
                 return Ok(new BaseResponseModel { Success = true, Data = order });
             }
@@ -37,7 +43,7 @@ namespace OrderMgt.API.Controllers
         [HttpPost("AddRangeAsync")]
         public async Task<IActionResult> AddRangeAsync(IEnumerable<Order> orders)
         {
-            if (await repository.AddRangeAsync(orders))
+            if (await orderRepository.AddRangeAsync(orders))
             {
                 return Ok(new BaseResponseModel { Success = true, Data = orders });
             }
@@ -55,7 +61,7 @@ namespace OrderMgt.API.Controllers
 
             Expression<Func<Order, bool>> result = (Expression<Func<Order, bool>>)serializer.DeserializeText(serializedExpression);
 
-            var res = repository.Find(result);
+            var res = orderRepository.Find(result);
             if (res.Count() > 0)
             {
                 return Ok(new BaseResponseModel { Success = true, Data = res });
@@ -66,24 +72,53 @@ namespace OrderMgt.API.Controllers
             }
         }
 
+        [HttpGet("ProcessOrderAsync")]
+        public async Task<IActionResult> ProcessOrderAsync(int id)
+        {
+            var result = await orderService.ProcessOrder(id);
+
+            if (result.Success)
+            {
+                return Ok(new BaseResponseModel() { Success = true });
+            }
+            else 
+            {
+                return NotFound(new BaseResponseModel { Success = false,ErrorMessage="Could not process the order!" });
+            }
+        }
+
+        [HttpGet("CompleteOrderAsync")]
+        public async Task<IActionResult> CompleteOrderAsync(int id)
+        {
+            var result = await orderService.CompleteOrder(id, User.Identity.Name);
+            if (result.Success)
+            {
+                return Ok(new BaseResponseModel() { Success = true });
+            }
+            else
+            {
+                return NotFound(new BaseResponseModel { Success = false, ErrorMessage = "Could not complete the order!" });
+            }
+        }
+
         [HttpGet("GetAsync")]
         public async Task<IActionResult> GetAsync(int id)
         {
-            var res = await repository.GetAsync(id);
+            var res = await orderRepository.GetAsync(id);
             return Ok(new BaseResponseModel { Success = true, Data = res });
         }
 
         [HttpGet("GetAllAsync")]
         public async Task<IActionResult> GetAllAsync()
         {
-            var res = await repository.GetAllAsync();
+            var res = await orderRepository.GetAllAsync();
             return Ok(new BaseResponseModel { Success = true, Data = res });
         }
 
         [HttpDelete("RemoveAsync")]
         public async Task<IActionResult> RemoveAsync(Order order)
         {
-            if (await repository.RemoveAsync(order))
+            if (await orderRepository.RemoveAsync(order))
             {
                 return Ok(new BaseResponseModel { Success = true });
             }
@@ -97,7 +132,7 @@ namespace OrderMgt.API.Controllers
         [HttpDelete("RemoveRangeAsync")]
         public async Task<IActionResult> RemoveRangeAsync(IEnumerable<Order> orders)
         {
-            if (await repository.RemoveRangeAsync(orders))
+            if (await orderRepository.RemoveRangeAsync(orders))
             {
                 return Ok(new BaseResponseModel { Success = true });
             }
@@ -110,7 +145,7 @@ namespace OrderMgt.API.Controllers
         [HttpPut("UpdateAsync")]
         public async Task<IActionResult> UpdateAsync(Order order)
         {
-            if (await repository.UpdateAsync(order))
+            if (await orderRepository.UpdateAsync(order))
             {
                 return Ok(new BaseResponseModel { Success = true, Data = order });
             }
@@ -123,7 +158,7 @@ namespace OrderMgt.API.Controllers
         [HttpPut("UpdateRangeAsync")]
         public async Task<IActionResult> UpdateRangeAsync(IEnumerable<Order> orders)
         {
-            if (await repository.UpdateRangeAsync(orders))
+            if (await orderRepository.UpdateRangeAsync(orders))
             {
                 return Ok(new BaseResponseModel { Success = true, Data = orders });
             }

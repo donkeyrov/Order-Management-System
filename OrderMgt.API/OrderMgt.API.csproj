@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>7a58780c-cad4-4c33-8c79-6f9abcbe3f7f</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,13 +21,10 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Identity.Client" Version="4.72.1" />
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.10.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serialize.Linq" Version="4.0.167" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.10.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

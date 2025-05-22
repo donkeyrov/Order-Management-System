@@ -12,12 +12,12 @@ namespace OrderMgt.API.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        protected readonly ILogger<AccountController> logger;
+        protected readonly ILogger<AccountController> _logger;
         protected readonly IAccountRepository repository;
 
-        public AccountController(AccountRepository _accountRepository, ILogger<AccountController> _logger)
+        public AccountController(IAccountRepository _accountRepository, ILogger<AccountController> logger)
         {
-            logger = _logger;
+            _logger = logger;
             repository = _accountRepository;
         }
 
@@ -37,7 +37,7 @@ namespace OrderMgt.API.Controllers
         [HttpPost("AddRangeAsync")]
         public async Task<IActionResult> AddRangeAsync(IEnumerable<Account> accounts)
         {
-            if (await repository.AddRangeAsync(accounts))
+            if (await repository.AddRangeAsync(accounts)) 
             {
                 return Ok(new BaseResponseModel { Success = true, Data = accounts });
             }

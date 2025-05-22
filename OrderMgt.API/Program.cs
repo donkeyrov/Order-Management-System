@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OrderMgt.API.Data;
+using OrderMgt.API.Extensions;
 using OrderMgt.API.Interfaces;
 using OrderMgt.API.Repositories;
+using OrderMgt.API.Services;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -14,12 +16,6 @@ IConfiguration configuration = new ConfigurationBuilder()
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
@@ -48,19 +44,14 @@ builder.Services.AddAuthentication(options =>
     })
     .AddCookie("Cookies");
 
-builder.Services.AddTransient<IAccountRepository, AccountRepository>();
-builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
-builder.Services.AddTransient<IInventoryRepository, InventoryRepository>();
-builder.Services.AddTransient<ILogRepository, LogRepository>();
-builder.Services.AddTransient<IOrderRepository, OrderRepository>();
-builder.Services.AddTransient<IOrderHistoryRepository, OrderHistoryRepository>();
-builder.Services.AddTransient<IOrderProductRepository, OrderProductRepository>();
-builder.Services.AddTransient<IOrderStatusRepository, OrderStatusRepository>();
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
-builder.Services.AddTransient<ISegmentRepository, SegmentRepository>();
-builder.Services.AddTransient<ITransactionRepository, TransactionRepository>();
-builder.Services.AddTransient<ITransactionCodeRepository, TransactionCodeRepository>();
+//add the services from the IServiceCollection extension to keep this file clean
+builder.Services.AddServices();
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -89,6 +80,8 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddExceptionHandler<ExceptionHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -99,6 +92,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler(_ => { });
 app.UseAuthorization();
 
 app.MapControllers();
