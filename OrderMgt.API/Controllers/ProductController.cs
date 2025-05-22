@@ -18,7 +18,7 @@ namespace OrderMgt.API.Controllers
         protected readonly IProductRepository repository;
         protected readonly ILogger<ProductController> logger;
 
-        public ProductController(ProductRepository _productRepository, ILogger<ProductController> _logger)
+        public ProductController(IProductRepository _productRepository, ILogger<ProductController> _logger)
         {
             repository = _productRepository;
             logger = _logger;

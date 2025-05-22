@@ -18,7 +18,7 @@ namespace OrderMgt.API.Controllers
         protected readonly ICustomerRepository repository;
         protected readonly ILogger<CustomerController> logger;
 
-        public CustomerController(CustomerRepository _customerRepository,ILogger<CustomerController> _logger)
+        public CustomerController(ICustomerRepository _customerRepository,ILogger<CustomerController> _logger)
         {
             repository = _customerRepository;
             logger = _logger;

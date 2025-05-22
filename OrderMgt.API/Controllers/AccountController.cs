@@ -5,6 +5,7 @@ using OrderMgt.API.Repositories;
 using OrderMgt.Model.Entities;
 using OrderMgt.Model.Models;
 using Serialize.Linq.Serializers;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Linq.Expressions;
 
 namespace OrderMgt.API.Controllers
@@ -23,6 +24,13 @@ namespace OrderMgt.API.Controllers
             repository = _accountRepository;
         }
 
+        /// <summary>
+        /// Adds a new account asynchronously.
+        /// </summary>
+        /// <param name="account">The account to be added. Cannot be null.</param>
+        /// <returns>An <see cref="IActionResult"/> indicating the result of the operation.  Returns <see cref="OkObjectResult"/>
+        /// with the added account if the operation succeeds,  or <see cref="NotFoundObjectResult"/> if the operation
+        /// fails.</returns>
         [HttpPost("AddAsync")]
         public async Task<IActionResult> AddAsync(Account account)
         {
@@ -36,6 +44,7 @@ namespace OrderMgt.API.Controllers
             }
         }
 
+        
         [HttpPost("AddRangeAsync")]
         public async Task<IActionResult> AddRangeAsync(IEnumerable<Account> accounts)
         {

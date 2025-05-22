@@ -20,7 +20,7 @@ namespace OrderMgt.API.Controllers
         protected readonly IOrderHistoryRepository orderHistoryRepository;       
         protected readonly IOrderService orderService;
         protected readonly ILogger<OrderController> logger;
-        public OrderController(OrderRepository _orderRepository,IOrderHistoryRepository _orderHistoryRepository,
+        public OrderController(IOrderRepository _orderRepository,IOrderHistoryRepository _orderHistoryRepository,
             IOrderService _orderService , ILogger<OrderController> _logger)
         {
             orderRepository = _orderRepository;

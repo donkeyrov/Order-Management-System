@@ -17,7 +17,7 @@ namespace OrderMgt.API.Controllers
     {
         protected readonly ILogRepository repository;
         protected readonly ILogger<LogController> logger;
-        public LogController(LogRepository _logRepository,ILogger<LogController> _logger)
+        public LogController(ILogRepository _logRepository,ILogger<LogController> _logger)
         {
             repository = _logRepository;
             logger = _logger;

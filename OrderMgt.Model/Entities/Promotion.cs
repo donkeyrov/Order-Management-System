@@ -24,7 +24,5 @@ namespace OrderMgt.Model.Entities
         [Required(ErrorMessage ="Please enter the discount percentage!")]
         [Range(1,100,ErrorMessage ="Please enter a valid percentage!")]
         public float DiscountPercentage { get; set; }
-
-        public Segment Segment { get; set; }        
     }
 }

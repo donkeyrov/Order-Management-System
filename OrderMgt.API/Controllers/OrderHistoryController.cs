@@ -18,7 +18,7 @@ namespace OrderMgt.API.Controllers
         protected readonly IOrderHistoryRepository repository;
         protected readonly ILogger<OrderHistoryController> logger;
 
-        public OrderHistoryController(OrderHistoryRepository _orderHistoryRepository,ILogger<OrderHistoryController> _logger)
+        public OrderHistoryController(IOrderHistoryRepository _orderHistoryRepository,ILogger<OrderHistoryController> _logger)
         {
             repository = _orderHistoryRepository;
             logger = _logger;

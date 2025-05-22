@@ -31,8 +31,6 @@ namespace OrderMgt.Model.Entities
         public string CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
         public string CompletedBy { get; set; }
-        public DateTime DateCompleted { get; set; }
-        
-        public Customer Customer { get; set; }
+        public DateTime DateCompleted { get; set; }        
     }
 }

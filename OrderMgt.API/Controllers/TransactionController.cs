@@ -17,7 +17,7 @@ namespace OrderMgt.API.Controllers
     {
         protected readonly ITransactionRepository repository;
         protected readonly ILogger<TransactionController> logger;
-        public TransactionController(TransactionRepository _transactionRepository, ILogger<TransactionController> _logger)
+        public TransactionController(ITransactionRepository _transactionRepository, ILogger<TransactionController> _logger)
         {
             repository = _transactionRepository;
             logger = _logger;

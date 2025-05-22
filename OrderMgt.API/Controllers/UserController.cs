@@ -10,23 +10,26 @@ using System.Linq.Expressions;
 
 namespace OrderMgt.API.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         protected readonly IUserRepository repository;
+        protected readonly IRegistrationService registrationService;
         protected readonly ILogger<UserController> logger;
 
-        public UserController(UserRepository _userRepository, ILogger<UserController> _logger)
+        public UserController(IUserRepository _userRepository,IRegistrationService _registrationService ,ILogger<UserController> _logger)
         {
             repository = _userRepository;
+            registrationService = _registrationService;
             logger = _logger;
         }
 
         [HttpPost("AddAsync")]
         public async Task<IActionResult> AddAsync(User user)
         {
+            user.Password = registrationService.CreatePassword(user.Password);
             if (await repository.AddAsync(user))
             {
                 return Ok(new BaseResponseModel { Success = true, Data = user });
@@ -40,6 +43,11 @@ namespace OrderMgt.API.Controllers
         [HttpPost("AddRangeAsync")]
         public async Task<IActionResult> AddRangeAsync(IEnumerable<User> users)
         {
+            foreach (var user in users)
+            {
+                user.Password = registrationService.CreatePassword(user.Password);
+            }
+
             if (await repository.AddRangeAsync(users))
             {
                 return Ok(new BaseResponseModel { Success = true, Data = users });

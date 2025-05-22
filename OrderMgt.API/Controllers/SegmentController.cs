@@ -18,7 +18,7 @@ namespace OrderMgt.API.Controllers
         protected readonly ISegmentRepository repository;
         protected readonly ILogger<SegmentController> logger;
 
-        public SegmentController(SegmentRepository _segmentRepository, ILogger<SegmentController> _logger)
+        public SegmentController(ISegmentRepository _segmentRepository, ILogger<SegmentController> _logger)
         {
             repository = _segmentRepository;
             logger = _logger;

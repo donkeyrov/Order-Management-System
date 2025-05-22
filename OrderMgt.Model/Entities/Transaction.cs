@@ -22,8 +22,7 @@ namespace OrderMgt.Model.Entities
         public float Credit { get; set; }
         public float Balance { get; set; }
         public string Description { get; set; }
-        public string Reference { get; set; }
-        [ForeignKey("Order")]
+        public string Reference { get; set; }        
         public int OrderID { get; set; }  
         public float TaxAmount { get; set; }
         [ForeignKey("Customer")]
@@ -31,9 +30,5 @@ namespace OrderMgt.Model.Entities
         public int CustomerID { get; set; }
         [ForeignKey("User")]
         public int UserID { get; set; }
-
-        public Order Order { get; set; }
-        public Customer Customer { get; set; }
-        public TransactionCode TransactionCode { get; set; }
     }
 }

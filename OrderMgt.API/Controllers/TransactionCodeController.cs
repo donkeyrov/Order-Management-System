@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OrderMgt.API.Interfaces;
 using OrderMgt.API.Repositories;
 using OrderMgt.Model.Entities;
 using OrderMgt.Model.Models;
@@ -14,10 +15,10 @@ namespace OrderMgt.API.Controllers
     [ApiController]
     public class TransactionCodeController : ControllerBase
     {
-        protected readonly TransactionCodeRepository repository;
+        protected readonly ITransactionCodeRepository repository;
         protected readonly ILogger<TransactionCodeController> logger;
 
-        public TransactionCodeController(TransactionCodeRepository _transactionCodeRepository, ILogger<TransactionCodeController> _logger)
+        public TransactionCodeController(ITransactionCodeRepository _transactionCodeRepository, ILogger<TransactionCodeController> _logger)
         {
             repository = _transactionCodeRepository;
             logger = _logger;

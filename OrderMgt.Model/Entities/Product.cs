@@ -25,8 +25,5 @@ namespace OrderMgt.Model.Entities
         public float UnitPrice { get; set; }
         public string CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
-
-
-        public ProductCategory ProductCategory { get; set; }
     }
 }

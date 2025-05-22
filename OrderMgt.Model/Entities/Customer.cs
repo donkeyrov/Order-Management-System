@@ -33,7 +33,5 @@ namespace OrderMgt.Model.Entities
         public int SegmentID { get; set; }
         public string CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
-
-        public ICollection<Order> Orders { get; set; }
     }
 }
