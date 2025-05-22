@@ -36,9 +36,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="AppDoc.xml">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
 		<InternalsVisibleTo Include="OrderMgt.TEST.IntegrationTest" />
 	</ItemGroup>
 

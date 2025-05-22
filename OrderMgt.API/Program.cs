@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OrderMgt.API.Data;
 using OrderMgt.API.Extensions;
+using System.Reflection;
 using System.Text;
 
 IConfiguration configuration = new ConfigurationBuilder()
@@ -67,6 +68,17 @@ builder.Services.AddSwaggerGen(options =>
     {
         {jwtSecurityScheme, Array.Empty<string>() }
     });
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Order Management System API",
+        Description = ".NET 8 Web API project that simulates an order management system",        
+    });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+
 });
 
 
