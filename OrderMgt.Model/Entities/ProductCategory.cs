@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents a category of products in the system, including its name, description, and metadata.
+    /// </summary>
+    /// <remarks>This class is typically used to group products into logical categories for organizational
+    /// purposes. Each category includes a unique identifier, a name, a description, and metadata about its
+    /// creation.</remarks>
     public class ProductCategory
     {
         [Key]

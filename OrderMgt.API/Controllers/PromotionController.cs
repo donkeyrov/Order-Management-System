@@ -9,6 +9,13 @@ using System.Linq.Expressions;
 
 namespace OrderMgt.API.Controllers
 {
+    /// <summary>
+    /// Provides API endpoints for managing promotions, including operations such as adding, updating, retrieving, and
+    /// removing promotions.
+    /// </summary>
+    /// <remarks>This controller is responsible for handling HTTP requests related to promotions. It interacts
+    /// with the underlying data repository     to perform CRUD operations on promotion entities. All endpoints in this
+    /// controller require authorization.</remarks>
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]

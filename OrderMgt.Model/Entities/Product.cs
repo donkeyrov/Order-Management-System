@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents a product in the system, including its category, name, description, price, and metadata.
+    /// </summary>
+    /// <remarks>This class is used to store and manage information about products, including their category,
+    /// name,  description, price, and creation metadata. It is typically used in e-commerce or inventory management 
+    /// systems. The <see cref="ProductCategoryID"/> property links the product to a specific category.</remarks>
     public class Product
     {
         [Key]

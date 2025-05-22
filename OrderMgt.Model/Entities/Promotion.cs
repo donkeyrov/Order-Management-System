@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents a promotional offer targeted at a specific customer segment.
+    /// </summary>
+    /// <remarks>A promotion defines the discount percentage and the range of orders (minimum and maximum) 
+    /// for which the promotion is applicable. It is associated with a specific customer segment  identified by the <see
+    /// cref="SegmentID"/>.</remarks>
     public class Promotion
     {
         [Key]

@@ -4,6 +4,14 @@ using OrderMgt.API.Services;
 
 namespace OrderMgt.API.Extensions
 {
+    /// <summary>
+    /// Provides extension methods for registering application services and dependencies  into an <see
+    /// cref="IServiceCollection"/>.
+    /// </summary>
+    /// <remarks>This class contains methods to simplify the registration of repositories, services,  and
+    /// other dependencies commonly used in the application. The registered services  include transient and scoped
+    /// lifetimes, as well as additional configurations such as  distributed memory caching and exception
+    /// handling.</remarks>
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddServices(this IServiceCollection services)

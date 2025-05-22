@@ -4,6 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents a transaction code used to categorize and process financial transactions.
+    /// </summary>
+    /// <remarks>A transaction code typically includes a unique identifier, a code string, and a description. 
+    /// It also specifies the associated debit and credit accounts, as well as metadata such as  creation details and
+    /// whether the transaction code is active. The <see cref="Code"/> property  is unique and required, ensuring that
+    /// each transaction code is distinct.</remarks>
     [Index(nameof(Code), IsUnique = true)]
     public class TransactionCode
     {

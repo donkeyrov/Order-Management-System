@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents an inventory record, including details about the product, quantity, and metadata.
+    /// </summary>
+    /// <remarks>This class is typically used to track the stock levels of products in an inventory system. 
+    /// Each inventory record is uniquely identified by the <see cref="InventoryID"/> property.</remarks>
     public class Inventory
     {
         [Key]

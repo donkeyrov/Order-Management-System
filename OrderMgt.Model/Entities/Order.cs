@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents a customer order, including details about the transaction, customer, status, and financial
+    /// information.
+    /// </summary>
+    /// <remarks>The <see cref="Order"/> class is used to store and manage information about individual orders
+    /// in the system.  It includes details such as the transaction date, customer, order status, and financial totals. 
+    /// This class is typically used in scenarios where order tracking, processing, or reporting is required.</remarks>
     public class Order
     {
         [Key]

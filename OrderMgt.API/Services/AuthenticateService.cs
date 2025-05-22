@@ -11,6 +11,12 @@ using System.Text;
 
 namespace OrderMgt.API.Services
 {
+    /// <summary>
+    /// Provides authentication services, including user validation and token generation.
+    /// </summary>
+    /// <remarks>This service is responsible for authenticating users based on their login credentials and
+    /// generating a JWT token for authorized access. It integrates with user repositories and registration services to
+    /// validate credentials and create secure tokens.</remarks>
     public class AuthenticateService : IAuthenticateService
     {
         protected readonly IConfiguration configuration;
@@ -25,6 +31,16 @@ namespace OrderMgt.API.Services
             registrationService = _registrationService;
         }
 
+        /// <summary>
+        /// Authenticates a user based on the provided login credentials and generates a JWT token.
+        /// </summary>
+        /// <remarks>The method validates the user's credentials against the stored data and ensures the
+        /// user is active. If authentication succeeds, a JWT token is created with claims that include user-specific
+        /// information such as roles and identifiers. The token is valid for a predefined duration.</remarks>
+        /// <param name="loginModel">The login details, including the username and password, provided by the user.</param>
+        /// <returns>A <see cref="LoginResponseModel"/> containing the generated JWT token, its expiration time, and user details
+        /// if authentication is successful; otherwise, <see langword="null"/> if the credentials are invalid or the
+        /// user is inactive.</returns>
         public LoginResponseModel Authenticate(LoginModel loginModel)
         {
             //check for valid user login details

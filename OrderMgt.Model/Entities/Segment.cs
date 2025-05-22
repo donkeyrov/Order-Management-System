@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents a segment entity with an identifier, name, description, creator, and creation date.
+    /// </summary>
+    /// <remarks>This class is typically used to define and manage segments in the application. Each segment
+    /// has a unique identifier and includes metadata such as its name, description, the user who created it, and the
+    /// date it was created.</remarks>
     public class Segment
     {
         [Key]

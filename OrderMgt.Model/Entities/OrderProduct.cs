@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents the association between an order and a product, including the quantity of the product in the order.
+    /// </summary>
+    /// <remarks>This class is used to model the many-to-many relationship between orders and products in a
+    /// database. Each instance of <see cref="OrderProduct"/> links a specific order to a specific product, along with
+    /// the quantity of the product in the order.</remarks>
     public class OrderProduct
     {
         [Key]

@@ -9,6 +9,13 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents a customer in the system, including personal details, contact information,  and associated metadata
+    /// such as customer segment and creation details.
+    /// </summary>
+    /// <remarks>This class is used to store and manage customer information, including unique identifiers 
+    /// for email and phone number. It is designed to ensure data integrity through validation  attributes and database
+    /// constraints.</remarks>
     [Index(nameof(Email), IsUnique = true)]
     [Index(nameof(PhoneNumber), IsUnique = true)]
     public class Customer

@@ -8,6 +8,14 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents a financial transaction, including details such as debit, credit, balance, and associated metadata.
+    /// </summary>
+    /// <remarks>This class is used to record and manage financial transactions. Each transaction is uniquely
+    /// identified by  <see cref="TransactionID"/> and includes information such as the transaction date, type, amounts
+    /// (debit, credit, balance),  and associated references (e.g., order, customer, and user).   The <see
+    /// cref="TransactionCodeID"/> and <see cref="CustomerID"/> properties must be valid, non-zero values, as enforced 
+    /// by the associated validation attributes.</remarks>
     public class Transaction
     {
         [Key]

@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace OrderMgt.Model.Entities
 {
+    /// <summary>
+    /// Represents the historical record of an order, including details about its status,  associated customer,
+    /// transaction dates, and financial information.
+    /// </summary>
+    /// <remarks>This class is typically used to track the lifecycle of an order, including its creation, 
+    /// completion, and any associated metadata such as discounts and totals. It is designed to  provide a comprehensive
+    /// view of an order's history for reporting or auditing purposes.</remarks>
     public class OrderHistory
     {
         [Key]

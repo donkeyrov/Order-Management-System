@@ -6,6 +6,12 @@ using OrderMgt.Model.Models;
 
 namespace OrderMgt.API.Controllers
 {
+    /// <summary>
+    /// Provides endpoints for user authentication, including login functionality.
+    /// </summary>
+    /// <remarks>This controller handles user authentication requests, such as validating login credentials 
+    /// and generating JWT tokens for authorized access. All endpoints in this controller are  accessible without
+    /// authentication, as indicated by the <see cref="AllowAnonymousAttribute"/>.</remarks>
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
@@ -20,6 +26,12 @@ namespace OrderMgt.API.Controllers
             logger = _logger;
         }
 
+       
+        /// <summary>
+        /// Authenticates a user with the provided login credentials and returns a JWT token if successful.
+        /// </summary>       
+        /// <param name="loginModel"></param>
+        /// <returns>Jwt Token</returns>
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(LoginResponseModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
