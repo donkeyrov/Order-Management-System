@@ -17,12 +17,12 @@ namespace OrderMgt.Model.Entities
         [ForeignKey("TransactionCode")]
         [DeniedValues("0", ErrorMessage = "Please select a valid transactionCode")]
         public int TransactionCodeID { get; set; }
-        public string TransactionType { get; set; }
+        public string? TransactionType { get; set; }
         public float Debit { get; set; }
         public float Credit { get; set; }
         public float Balance { get; set; }
-        public string Description { get; set; }
-        public string Reference { get; set; }        
+        public string? Description { get; set; }
+        public string? Reference { get; set; }        
         public int OrderID { get; set; }  
         public float TaxAmount { get; set; }
         [ForeignKey("Customer")]

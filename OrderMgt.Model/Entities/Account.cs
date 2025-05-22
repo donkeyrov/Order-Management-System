@@ -14,14 +14,14 @@ namespace OrderMgt.Model.Entities
         public int AccountID { get; set; }        
         [MaxLength(50)]
         [Required(ErrorMessage = "Please enter the account code!")]
-        public string AccountCode { get; set; }
+        public string? AccountCode { get; set; }
         [MaxLength(250)]
         [Required(ErrorMessage = "Please enter the account name!")]
-        public string AccountName { get; set; }
+        public string? AccountName { get; set; }
         [MaxLength(500)]
         [Required(ErrorMessage = "Please enter the account description!")]
-        public string Description { get; set; }
-        public string CreatedBy { get; set; }
+        public string? Description { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }

@@ -25,15 +25,16 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    //options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 })
     .AddJwtBearer(option =>
     {
-        option.SaveToken = true;
-        option.RequireHttpsMetadata = false;
+        //option.SaveToken = true;
+        //option.RequireHttpsMetadata = false;
         option.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
         {
             ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
             ValidateIssuer = false,
             ValidateAudience = false,
             RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
@@ -42,16 +43,17 @@ builder.Services.AddAuthentication(options =>
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
         };
 
-    })
-    .AddCookie("Cookies");
+    });
+//.AddCookie("Cookies");
+builder.Services.AddAuthorization();
 
 //add the services from the IServiceCollection extension to keep this file clean
 builder.Services.AddServices();
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-builder.Services.AddEndpointsApiExplorer();
+//builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -59,7 +61,7 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Description = "Please enter jwt token",
         Name = "Authorization",
-        Type = SecuritySchemeType.Http,
+        Type = SecuritySchemeType.ApiKey,
         BearerFormat = "JWT",
         Scheme = "bearer"
     });
@@ -77,16 +79,15 @@ builder.Services.AddSwaggerGen(options =>
             new string[] { }
         }
     });
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-    // Include XML comments in the generated documentation
-    var xmlFile = Path.Combine(AppContext.BaseDirectory, "AppDoc.xml");
-    if (File.Exists(xmlFile))
-    {
-        options.IncludeXmlComments(xmlFile, true);
-    }
+    //options.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+    //// Include XML comments in the generated documentation
+    //var xmlFile = Path.Combine(AppContext.BaseDirectory, "AppDoc.xml");
+    //if (File.Exists(xmlFile))
+    //{
+    //    options.IncludeXmlComments(xmlFile, true);
+    //}
 });
-
-builder.Services.AddExceptionHandler<ExceptionHandler>();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -94,7 +95,8 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger(options => {        
+    app.UseSwagger(options =>
+    {
         options.SerializeAsV2 = true;
     });
     app.UseSwaggerUI(options => // UseSwaggerUI is called only in Development.
@@ -103,8 +105,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseExceptionHandler(_ => { });
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseExceptionHandler(_ => { });
+app.UseCors("AllowAll");
 
 app.MapControllers();
 

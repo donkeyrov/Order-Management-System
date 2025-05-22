@@ -8,6 +8,7 @@ namespace OrderMgt.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class AuthenticationController : ControllerBase
     {
         protected readonly IAuthenticateService authenticateService;

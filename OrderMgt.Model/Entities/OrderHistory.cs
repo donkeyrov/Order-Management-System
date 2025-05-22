@@ -15,15 +15,15 @@ namespace OrderMgt.Model.Entities
         public int OrderHistoryID { get; set; }
         public int OrderID { get; set; }
         public DateTime TransactionDate { get; set; }
-        public string OrderNo { get; set; }
+        public string? OrderNo { get; set; }
         public int CustomerID { get; set; } 
-        public string Details { get; set; }
-        public string OrderStatus { get; set; }
+        public string? Details { get; set; }
+        public string? OrderStatus { get; set; }
         public float Discount { get; set; }
         public float Total { get; set; }        
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
-        public string CompletedBy { get; set; }
+        public string? CompletedBy { get; set; }
         public DateTime DateCompleted { get; set; }
        
     }

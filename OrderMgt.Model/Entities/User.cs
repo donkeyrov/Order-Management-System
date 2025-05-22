@@ -13,14 +13,14 @@ namespace OrderMgt.Model.Entities
         public int UserID { get; set; }
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         [Required(ErrorMessage = "Email is required")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
         [Required(ErrorMessage = "Password is required")]
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters long!")]
         [DataType(DataType.Password)]
-        public string Password { get; set; } // Consider hashing the password
+        public string? Password { get; set; } // Consider hashing the password
         [Required(ErrorMessage = "Full Name is required")]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
         public bool IsActive { get; set; } // Indicates if the user is active or inactive
-        public string Role { get; set; } // e.g., "Admin", "User", etc.
+        public string? Role { get; set; } // e.g., "Admin", "User", etc.
     }
 }

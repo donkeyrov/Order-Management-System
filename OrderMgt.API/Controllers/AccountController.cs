@@ -9,10 +9,10 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Linq.Expressions;
 
 namespace OrderMgt.API.Controllers
-{
-    [Authorize]
+{    
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class AccountController : ControllerBase
     {
         protected readonly ILogger<AccountController> _logger;

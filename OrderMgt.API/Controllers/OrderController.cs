@@ -11,20 +11,17 @@ using System.Linq.Expressions;
 
 namespace OrderMgt.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderController : ControllerBase
     {
-        protected readonly IOrderRepository orderRepository;
-        protected readonly IOrderHistoryRepository orderHistoryRepository;       
+        protected readonly IOrderRepository orderRepository;             
         protected readonly IOrderService orderService;
         protected readonly ILogger<OrderController> logger;
-        public OrderController(IOrderRepository _orderRepository,IOrderHistoryRepository _orderHistoryRepository,
-            IOrderService _orderService , ILogger<OrderController> _logger)
+        public OrderController(IOrderRepository _orderRepository,IOrderService _orderService , ILogger<OrderController> _logger)
         {
-            orderRepository = _orderRepository;
-            orderHistoryRepository = _orderHistoryRepository;            
+            orderRepository = _orderRepository;             
             orderService = _orderService;
             logger = _logger;
         }
@@ -81,7 +78,7 @@ namespace OrderMgt.API.Controllers
 
             if (result.Success)
             {
-                return Ok(new BaseResponseModel() { Success = true });
+                return Ok(new BaseResponseModel() { Success = true , Data = result.Data});
             }
             else 
             {

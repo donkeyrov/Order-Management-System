@@ -49,12 +49,12 @@ namespace OrderMgt.API.Services
                  );
 
             identity.AddClaims(new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.Username),
+                {                   
                     new Claim("UserId", user.UserID.ToString()),
                     new Claim("Username", user.Username),
                     new Claim(ClaimTypes.Email, user.Username),
-                    new Claim(ClaimTypes.Version, "V1.0"),
+                    new Claim(ClaimTypes.Version, "V3.1"),
+                    new Claim(ClaimTypes.Role, user.Role),
                     new Claim(JwtRegisteredClaimNames.Sub, "1"),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }
@@ -65,6 +65,8 @@ namespace OrderMgt.API.Services
             var key = Encoding.UTF8.GetBytes(configuration["JWT:Secret"]);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
+                Issuer = configuration["JWT:ValidIssuer"],
+                Audience = configuration["JWT:ValidAudience"],
                 Subject = new ClaimsIdentity(identity),
                 Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

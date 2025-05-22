@@ -14,10 +14,10 @@ namespace OrderMgt.Model.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductCategoryID { get; set; }
         [Required(ErrorMessage = "Please enter a product category name")]
-        public string CategoryName { get; set; }
+        public string? CategoryName { get; set; }
         [Required(ErrorMessage = "Please enter a product category description")]
-        public string Description { get; set; }
-        public string CreatedBy { get; set; }
+        public string? Description { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }

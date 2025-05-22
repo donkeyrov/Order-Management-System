@@ -14,11 +14,11 @@ namespace OrderMgt.Model.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int LogID { get; set; }
         public DateTime LogDate { get; set; }
-        public string LogType { get; set; }        
-        public string Username { get; set; }
-        public string ComputerName { get; set; }
-        public string Source { get; set; }
-        public string Process { get; set; }
-        public string Details { get; set; }
+        public string? LogType { get; set; }        
+        public string? Username { get; set; }
+        public string? ComputerName { get; set; }
+        public string? Source { get; set; }
+        public string? Process { get; set; }
+        public string    Details { get; set; }
     }
 }

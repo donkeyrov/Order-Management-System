@@ -14,10 +14,10 @@ namespace OrderMgt.Model.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int SegmentID { get; set; }
         [Required(ErrorMessage = "Please enter a segment name")]
-        public string SegmentName { get; set; }
+        public string? SegmentName { get; set; }
         [Required(ErrorMessage = "Please enter a segment description")]
-        public string Description { get; set; }
-        public string CreatedBy { get; set; }
+        public string? Description { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }

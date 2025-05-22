@@ -18,7 +18,7 @@ namespace OrderMgt.Model.Entities
         [DeniedValues("0", ErrorMessage = "Please select a valid product category")]
         public int ProductCategoryID { get; set; }
         [Required(ErrorMessage = "Please enter a product name")]
-        public string ProductName { get; set; }
+        public string? ProductName { get; set; }
         [Required(ErrorMessage = "Please enter a product description")]
         public string Description { get; set; }
         [Range(0.01, float.MaxValue, ErrorMessage = "Unit price must be a positive number")]

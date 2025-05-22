@@ -11,9 +11,9 @@ using System.Net.Http.Headers;
 
 namespace OrderMgt.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductCategoryController : ControllerBase
     {
         protected readonly IProductCategoryRepository repository;

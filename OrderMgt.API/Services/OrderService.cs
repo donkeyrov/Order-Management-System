@@ -32,7 +32,7 @@ namespace OrderMgt.API.Services
             var result = await this.GenerateDiscount(order);
             if (result.Success && result.Data is not null)
             {
-                order = JsonConvert.DeserializeObject<Order>(result.Data.ToString());
+                order = (Order)result.Data;
 
                 //update order details
                 await _orderRepository.UpdateAsync(order);
@@ -58,7 +58,7 @@ namespace OrderMgt.API.Services
                 TransactionDate = order.TransactionDate,
                 OrderStatus = order.OrderStatus,
                 DateCompleted = order.DateCompleted,
-                CompletedBy = order.CompletedBy,
+                CompletedBy = order.CompletedBy ?? "user",
                 CreatedBy = order.CreatedBy,
                 CustomerID = order.CustomerID,
                 DateCreated = order.DateCreated,
@@ -92,17 +92,19 @@ namespace OrderMgt.API.Services
             //check applicable promotion
             var promotion = _promotionRepository.Find(p => p.SegmentID == customer.SegmentID 
                                                        && p.MinOrders <= numberOfPrevOrders && p.MaxOrders >= numberOfPrevOrders).FirstOrDefault();
-
-            if(promotion is null)
-            {
-                return new BaseResponseModel() { Success = false, ErrorMessage = "No promotion found in the order to apply discount", Data = null };
-            }
-
-            //apply discount on order
-            var discountAmount = (order.Total * promotion.DiscountPercentage) / 100;
-            order.Discount = discountAmount;
             order.OrderStatus = "Processed";
-            order.Total = order.Total - order.Discount;
+
+            if (promotion is null)
+            {
+                return new BaseResponseModel() { Success = true, ErrorMessage = "No promotion found in the order to apply discount", Data = order };
+            }
+            else
+            {
+                //apply discount on order
+                var discountAmount = (order.Total * promotion.DiscountPercentage) / 100;
+                order.Discount = discountAmount;                
+                order.Total = order.Total - order.Discount;
+            }
 
             return new BaseResponseModel() { Success = true, ErrorMessage = "", Data = order };
         }

@@ -11,9 +11,9 @@ namespace OrderMgt.Model.Models
     {
         [DataType(DataType.EmailAddress, ErrorMessage = "Please enter a valid email address")]
         [Required(ErrorMessage = "Please enter your email address!")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters long!")]
         [Required(ErrorMessage = "Please enter a password for your account!")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }

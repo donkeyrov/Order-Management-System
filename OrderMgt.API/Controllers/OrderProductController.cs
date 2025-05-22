@@ -10,9 +10,9 @@ using System.Linq.Expressions;
 
 namespace OrderMgt.API.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class OrderProductController : ControllerBase
     {
         protected readonly IOrderProductRepository repository;

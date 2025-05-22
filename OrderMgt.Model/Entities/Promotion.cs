@@ -18,7 +18,7 @@ namespace OrderMgt.Model.Entities
         [DeniedValues(0, ErrorMessage = "Please select the customer segment!")]
         public int SegmentID { get; set; }        
         [Required(ErrorMessage ="Please enter the promotion name!")]
-        public string PromotionName { get; set; }
+        public string? PromotionName { get; set; }
         public int MinOrders { get; set; }
         public int MaxOrders { get; set; }
         [Required(ErrorMessage ="Please enter the discount percentage!")]

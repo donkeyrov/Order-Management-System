@@ -18,7 +18,7 @@ namespace OrderMgt.Model.Entities
         public int ProductID { get; set; }
         [Range(0, int.MaxValue, ErrorMessage = "Quantity must be a non-negative integer")]
         public int Quantity { get; set; }
-        public string CreatedBy { get; set; }
+        public string? CreatedBy { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }

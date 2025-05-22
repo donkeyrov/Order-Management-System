@@ -26,6 +26,9 @@ namespace OrderMgt.API.Extensions
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddTransient<ExceptionHandler>();
+            services.AddDistributedMemoryCache();
+
+            services.AddExceptionHandler<ExceptionHandler>();
             return services;
         }
     }
