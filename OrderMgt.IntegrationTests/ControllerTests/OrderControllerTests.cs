@@ -23,13 +23,6 @@ namespace OrderMgt.IntegrationTests.ControllerTests
         {
             _webApplicationFactory = new WebApplicationFactory();
             _httpClient = _webApplicationFactory.CreateClient();
-            _httpClient.DefaultRequestHeaders.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            _httpClient.BaseAddress = new Uri("http://localhost:5140/");
-            _httpClient.DefaultRequestHeaders.UserAgent.Add(new("Test", "1.2.3"));
-            
-            //_httpClient.DefaultRequestHeaders.TryAddWithoutValidation("icSessionId", icSessionId);
-
         }
 
         public void Dispose()
@@ -81,8 +74,9 @@ namespace OrderMgt.IntegrationTests.ControllerTests
             var model = JsonConvert.DeserializeObject<BaseResponseModel>(contents);
 
             var result = model.Data;
-            response.Should().NotBeNull();
-            //Equal(HttpStatusCode.OK, response.StatusCode);
+
+            model.Success.Should().BeTrue();
+            result.Should().NotBeNull();            
         }
     }
 }
