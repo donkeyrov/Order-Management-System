@@ -1,6 +1,6 @@
 # Order Management System
 
-##Project Setup
+## Project Setup
 The solution is broken down into several small projects.
 - OrgerMgt.API (main API project)
 - OrderMgt.DatabaseUpdater (an app for inserting data into the database)
@@ -8,7 +8,7 @@ The solution is broken down into several small projects.
 - OrderMgt.Model (DB entities/models)
 - OrderMgt.UnitTests (Unit tests for the project)
 
-##Installation
+## Installation
 The API project has a connection string in the appsettings, which must be updated before running the migrations.
 The DatabaseUpdater project also has a connection string, this must be pointed to your new DB before it can insert data into the database.
 
@@ -19,7 +19,7 @@ The DatabaseUpdater project also has a connection string, this must be pointed t
   Swagger has been configured to accept the JWT token, allowing you to access the endpoints with it.
   Exception handling has been implemented globally in the API.
 
-###Approach to API creation
+### Approach to API creation
 1. Define the API scope and establish expected data flows and interactions.
 2. Design the data models, repositories, services, and API endpoints.
 3. Implement security (JWT) - Authorization on the endpoints just checks if a user is authenticated, and no role or policy-based authorization has been implemented.
