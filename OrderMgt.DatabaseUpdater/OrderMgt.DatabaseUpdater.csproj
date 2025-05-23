@@ -8,13 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="dbup-core" Version="6.0.4" />
-    <PackageReference Include="dbup-sqlserver" Version="6.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.5" />
+    <EmbeddedResource Include="Scripts\0009.AddOrderHistoryDataToDB.Sql" />
+    <EmbeddedResource Include="Scripts\0008.AddOrdersDataToDB.Sql" />
+    <EmbeddedResource Include="Scripts\0007.AddProductsDataToDB.Sql" />
+    <EmbeddedResource Include="Scripts\0006.AddPromotionsDataToDB.Sql" />
+    <EmbeddedResource Include="Scripts\0005.AddUsersDataToDB.Sql" />
+    <EmbeddedResource Include="Scripts\0004.AddCustomersDataToDB.Sql" />
+    <EmbeddedResource Include="Scripts\0003.AddAccountsDataToDB.Sql" />
+    <EmbeddedResource Include="Scripts\0002.AddSegmentsDataToDB.Sql" />
+    <EmbeddedResource Include="Scripts\0001.AddProductCategoriesDataToDB.Sql" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Scripts\" />
+    <PackageReference Include="dbup-core" Version="6.0.4" />
+    <PackageReference Include="dbup-sqlserver" Version="6.0.0" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.5" />
   </ItemGroup>
 
 </Project>
