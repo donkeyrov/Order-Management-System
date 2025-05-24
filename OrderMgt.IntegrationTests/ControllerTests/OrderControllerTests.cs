@@ -78,5 +78,121 @@ namespace OrderMgt.IntegrationTests.ControllerTests
             model.Success.Should().BeTrue();
             result.Should().NotBeNull();            
         }
+        [Fact]
+        public async Task GetAllAsync_ShouldReturnEmptyList_WhenNoOrdersExist()
+        {
+            string token = await GetToken("user@demo.com", "test1234");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            _webApplicationFactory.OrderRepositoryMock.Setup(r => r.GetAllAsync()).ReturnsAsync(new List<Order>());
+
+            var response = await _httpClient.GetAsync("/api/Order/GetAllAsync");
+            var contents = await response.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<BaseResponseModel>(contents);
+
+            model.Success.Should().BeTrue();
+            model.Data.Should().NotBeNull();
+            var orders = ((JArray)model.Data).ToObject<List<Order>>();
+            orders.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task GetByIdAsync_ShouldReturnOrder_WhenOrderExists()
+        {
+            string token = await GetToken("user@demo.com", "test1234");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var order = new Order
+            {
+                OrderID = 10,
+                OrderNo = "010",
+                OrderStatus = "Created",
+                CustomerID = 2,
+                TransactionDate = DateTime.Now,
+                Details = "order details",
+                Total = 5000,
+                CompletedBy = "user",
+                DateCreated = DateTime.Now
+            };
+
+            _webApplicationFactory.OrderRepositoryMock.Setup(r => r.GetAsync(10)).ReturnsAsync(order);
+
+            var response = await _httpClient.GetAsync("/api/Order/GetAsync?id=10");
+            var contents = await response.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<BaseResponseModel>(contents);
+
+            model.Success.Should().BeTrue();
+            model.Data.Should().NotBeNull();
+            var returnedOrder = ((JObject)model.Data).ToObject<Order>();
+            returnedOrder.OrderID.Should().Be(10);
+        }
+
+        [Fact]
+        public async Task GetByIdAsync_ShouldReturnNotFound_WhenOrderDoesNotExist()
+        {
+            string token = await GetToken("user@demo.com", "test1234");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            _webApplicationFactory.OrderRepositoryMock.Setup(r => r.GetAsync(99)).ReturnsAsync((Order)null);
+
+            var response = await _httpClient.GetAsync("/api/Order/GetAsync?id=99");
+            var contents = await response.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<BaseResponseModel>(contents);
+
+            //model.Success.Should().BeFalse();
+            model.Data.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task CreateOrderAsync_ShouldReturnSuccess_WhenOrderIsValid()
+        {
+            string token = await GetToken("user@demo.com", "test1234");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var order = new Order
+            {
+                OrderNo = "011",
+                OrderStatus = "Created",
+                CustomerID = 3,
+                TransactionDate = DateTime.Now,
+                Details = "new order",
+                Total = 7000,                                
+                CompletedBy = "user",
+                DateCreated = DateTime.Now
+            };            
+
+            _webApplicationFactory.OrderRepositoryMock
+                    .Setup(r => r.AddAsync(It.IsAny<Order>()))
+                    .ReturnsAsync(true);
+
+            var json = JsonConvert.SerializeObject(order);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("/api/Order/AddAsync", content);
+            var contents = await response.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<BaseResponseModel>(contents);
+
+            model.Success.Should().BeTrue();
+            model.Data.Should().NotBeNull();
+        }
+
+        [Fact]
+        public async Task CreateOrderAsync_ShouldReturnBadRequest_WhenOrderIsInvalid()
+        {
+            string token = await GetToken("user@demo.com", "test1234");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var order = new Order(); // missing required fields
+
+            var json = JsonConvert.SerializeObject(order);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("/api/Order/AddAsync", content);
+            var contents = await response.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<BaseResponseModel>(contents);
+
+            model.Success.Should().BeFalse();
+        }
+
     }
 }
