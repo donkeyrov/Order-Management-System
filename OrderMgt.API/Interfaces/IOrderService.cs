@@ -8,6 +8,7 @@ namespace OrderMgt.API.Interfaces
     {        
         public Task<BaseResponseModel> GenerateDiscount(Order order);   
         public Task<BaseResponseModel> ProcessOrder(int orderID);  
-        public Task<BaseResponseModel> CompleteOrder(int orderID,string userID);        
+        public Task<BaseResponseModel> CompleteOrder(int orderID,string userID);
+        public Task<BaseResponseModel> GetOrderStats();
     }
 }

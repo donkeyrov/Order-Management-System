@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using OrderMgt.API.Data;
 using OrderMgt.API.Interfaces;
 using OrderMgt.Model.Entities;
 using OrderMgt.Model.Models;
@@ -21,7 +23,7 @@ namespace OrderMgt.API.Services
         protected readonly IOrderRepository _orderRepository;
         protected readonly IOrderHistoryRepository _orderHistoryRepository;
         protected readonly IPromotionRepository _promotionRepository;
-        protected readonly ICustomerRepository _customerRepository;  
+        protected readonly ICustomerRepository _customerRepository;        
         protected readonly ILogger<OrderService> _logger;
         public OrderService(IOrderHistoryRepository orderHistoryRepository, IPromotionRepository promotionRepository,
             IOrderRepository orderRepository,ICustomerRepository customerRepository, ILogger<OrderService> logger)
@@ -29,7 +31,7 @@ namespace OrderMgt.API.Services
             _orderRepository = orderRepository;
             _orderHistoryRepository = orderHistoryRepository;
             _promotionRepository = promotionRepository;
-            _customerRepository = customerRepository;  
+            _customerRepository = customerRepository;            
             _logger = logger;
         }
 
@@ -158,6 +160,9 @@ namespace OrderMgt.API.Services
             return new BaseResponseModel() { Success = true, ErrorMessage = "", Data = order };
         }
 
-       
+        public Task<BaseResponseModel> GetOrderStats()
+        {   
+            throw new NotImplementedException();
+        }
     }
 }
