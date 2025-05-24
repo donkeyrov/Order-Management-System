@@ -194,5 +194,77 @@ namespace OrderMgt.IntegrationTests.ControllerTests
             model.Success.Should().BeFalse();
         }
 
+        [Fact]
+        public async Task ProcessOrderAsync_ShouldReturnSuccess_WhenOrderIsProcessed()
+        {
+            // Arrange
+            string token = await GetToken("user@demo.com", "test1234");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var processedOrder = new Order
+            {
+                OrderID = 5,
+                OrderNo = "005",
+                OrderStatus = "Processed",
+                CustomerID = 2,
+                TransactionDate = DateTime.Now,
+                Details = "processed order",
+                Total = 2500,
+                CompletedBy = "user",
+                DateCreated = DateTime.Now
+            };
+
+            var serviceResponse = new BaseResponseModel
+            {
+                Success = true,
+                Data = processedOrder
+            };
+
+            // Mock the service layer
+            _webApplicationFactory.OrderServiceMock
+                .Setup(r => r.ProcessOrder(5))
+                .ReturnsAsync(serviceResponse);
+
+            // Act
+            var response = await _httpClient.GetAsync("/api/Order/ProcessOrderAsync?id=5");
+            var contents = await response.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<BaseResponseModel>(contents);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            model.Success.Should().BeTrue();
+            model.Data.Should().NotBeNull();
+            var returnedOrder = ((JObject)model.Data).ToObject<Order>();
+            returnedOrder.OrderStatus.Should().BeEquivalentTo("Processed");
+        }
+
+        [Fact]
+        public async Task ProcessOrderAsync_ShouldReturnNotFound_WhenOrderProcessingFails()
+        {
+            // Arrange
+            string token = await GetToken("user@demo.com", "test1234");
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var serviceResponse = new BaseResponseModel
+            {
+                Success = false,
+                ErrorMessage = "Could not process the order!"
+            };
+
+            // Mock the service layer
+            _webApplicationFactory.OrderServiceMock
+                .Setup(r => r.ProcessOrder(99))
+                .ReturnsAsync(serviceResponse);
+
+            // Act
+            var response = await _httpClient.GetAsync("/api/Order/ProcessOrderAsync?id=99");
+            var contents = await response.Content.ReadAsStringAsync();
+            var model = JsonConvert.DeserializeObject<BaseResponseModel>(contents);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+            model.Success.Should().BeFalse();
+            model.ErrorMessage.Should().Be("Could not process the order!");
+        }
     }
 }
